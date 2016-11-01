@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <span id="errorLabel" style="color:red; visibility:hidden">
+            User or Password wrong
+        </span>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-xs-3">
+                <label for="name">Name</label>
+            </div>
+            <div class="col-xs-6">
+                <input type="text" id="name" name="name" />
+            </div>
+        </div>
+        <div class="row"><br /></div>
+        <div class="row">
+            <div class="col-xs-3">
+                <label for="password">Password</label>
+            </div>
+            <div class="col-xs-6">
+                <input type="password" id="password" name="password" />
+            </div>
+        </div>
+        <div class="row"><br /></div>
+        <div class="row">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" class="btn btn-primary" id="Login" value="Login">Login</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/Common/login.js"></script>
+}

@@ -243,3 +243,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Common/Address
+/WeigthWatcher/Services/PatientService.cs
+/WeigthWatcher/Services/EventService.cs
