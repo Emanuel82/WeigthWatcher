@@ -14,6 +14,12 @@ namespace WeigthWatcher
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+               name: "Doctors",
+               url: "Doctors/{action}/{id}",
+               defaults: new { controller = "Doctors", action = "Index", id = UrlParameter.Optional }
+           );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

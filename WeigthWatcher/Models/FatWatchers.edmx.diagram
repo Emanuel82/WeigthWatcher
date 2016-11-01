@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9c90eafd90ec40a2813e9e4ec7ba60b6" Name="Diagram1">
+        <EntityTypeShape EntityType="FatWatchModel.Address" Width="1.5" PointX="2.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.City" Width="1.5" PointX="7.5" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.Continent" Width="1.5" PointX="0.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.Country" Width="1.5" PointX="3" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.Region" Width="1.5" PointX="5.25" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.Timezone" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.Doctor" Width="1.5" PointX="5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.PatientDetail" Width="1.5" PointX="9.5" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.Patient" Width="1.5" PointX="7.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.Treatement" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.Treatement2Patient" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FatWatchModel.TreatementType" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="FatWatchModel.FK_Doctors_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Patients_Address" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Cities_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Cities_Regions" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Cities_Timezones" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Countries_Continents" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Regions_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Patients_Doctors" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_PatientDetails_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Treatement_Treatement" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Treatement2Patient_Patients" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_Treatement2Patient_TreatementTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="FatWatchModel.FK_TreatementTypes_TreatementTypes" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

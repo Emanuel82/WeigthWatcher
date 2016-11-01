@@ -1,0 +1,854 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FatWatchModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StreetName" Type="nvarchar" MaxLength="150" />
+          <Property Name="RegionId" Type="int" />
+          <Property Name="CityId" Type="int" />
+        </EntityType>
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="CityId" />
+          </Key>
+          <Property Name="CityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="RegionId" Type="int" />
+          <Property Name="TimezoneId" Type="int" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="Latitude" Type="decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude" Type="decimal" Precision="9" Scale="6" />
+        </EntityType>
+        <EntityType Name="Continents">
+          <Key>
+            <PropertyRef Name="ContinentId" />
+          </Key>
+          <Property Name="ContinentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ISOCode" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContinentId" Type="int" Nullable="false" />
+          <Property Name="ISOCode" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Regions">
+          <Key>
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="RegionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="ISOCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Timezones">
+          <Key>
+            <PropertyRef Name="TimezoneId" />
+          </Key>
+          <Property Name="TimezoneId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Doctors">
+          <Key>
+            <PropertyRef Name="DoctorId" />
+          </Key>
+          <Property Name="DoctorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AddressId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="PatientDetails">
+          <Key>
+            <PropertyRef Name="PatientDetailsId" />
+          </Key>
+          <Property Name="PatientDetailsId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="InputDate" Type="datetime" Nullable="false" />
+          <Property Name="Weight" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Patients">
+          <Key>
+            <PropertyRef Name="PatientId" />
+          </Key>
+          <Property Name="PatientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DoctorId" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="AddressId" Type="int" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="DateOfRegistration" Type="date" Nullable="false" />
+          <Property Name="Height" Type="float" />
+        </EntityType>
+        <EntityType Name="Treatement">
+          <Key>
+            <PropertyRef Name="TreatementId" />
+          </Key>
+          <Property Name="TreatementId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Treatement2Patient">
+          <Key>
+            <PropertyRef Name="Treatement2PatientId" />
+          </Key>
+          <Property Name="Treatement2PatientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TreatementTypeId" Type="int" Nullable="false" />
+          <Property Name="TreatementId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TreatementTypes">
+          <Key>
+            <PropertyRef Name="TreatementTypeId" />
+          </Key>
+          <Property Name="TreatementTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TreatementTypeName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="TreatementTypeParentId" Type="int" Nullable="false" />
+          <Property Name="TreatementTypeDescription" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Cities_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cities_Regions">
+          <End Role="Regions" Type="Self.Regions" Multiplicity="0..1" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Regions">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cities_Timezones">
+          <End Role="Timezones" Type="Self.Timezones" Multiplicity="0..1" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timezones">
+              <PropertyRef Name="TimezoneId" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="TimezoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Countries_Continents">
+          <End Role="Continents" Type="Self.Continents" Multiplicity="1" />
+          <End Role="Countries" Type="Self.Countries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Continents">
+              <PropertyRef Name="ContinentId" />
+            </Principal>
+            <Dependent Role="Countries">
+              <PropertyRef Name="ContinentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Doctors_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Doctors">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientDetails_Patients">
+          <End Role="Patients" Type="Self.Patients" Multiplicity="1" />
+          <End Role="PatientDetails" Type="Self.PatientDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="PatientDetails">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patients_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="Patients" Type="Self.Patients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Patients">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patients_Doctors">
+          <End Role="Doctors" Type="Self.Doctors" Multiplicity="0..1" />
+          <End Role="Patients" Type="Self.Patients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="Patients">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Regions_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="Regions" Type="Self.Regions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Regions">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treatement_Treatement">
+          <End Role="Treatement" Type="Self.Treatement" Multiplicity="1" />
+          <End Role="Treatement1" Type="Self.Treatement" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Treatement">
+              <PropertyRef Name="TreatementId" />
+            </Principal>
+            <Dependent Role="Treatement1">
+              <PropertyRef Name="TreatementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treatement2Patient_Patients">
+          <End Role="Treatement" Type="Self.Treatement" Multiplicity="1" />
+          <End Role="Treatement2Patient" Type="Self.Treatement2Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatement">
+              <PropertyRef Name="TreatementId" />
+            </Principal>
+            <Dependent Role="Treatement2Patient">
+              <PropertyRef Name="TreatementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treatement2Patient_TreatementTypes">
+          <End Role="TreatementTypes" Type="Self.TreatementTypes" Multiplicity="1" />
+          <End Role="Treatement2Patient" Type="Self.Treatement2Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TreatementTypes">
+              <PropertyRef Name="TreatementTypeId" />
+            </Principal>
+            <Dependent Role="Treatement2Patient">
+              <PropertyRef Name="TreatementTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TreatementTypes_TreatementTypes">
+          <End Role="TreatementTypes" Type="Self.TreatementTypes" Multiplicity="1" />
+          <End Role="TreatementTypes1" Type="Self.TreatementTypes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TreatementTypes">
+              <PropertyRef Name="TreatementTypeId" />
+            </Principal>
+            <Dependent Role="TreatementTypes1">
+              <PropertyRef Name="TreatementTypeParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FatWatchModelStoreContainer">
+          <EntitySet Name="Address" EntityType="Self.Address" Schema="Common" store:Type="Tables" />
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="Common" store:Type="Tables" />
+          <EntitySet Name="Continents" EntityType="Self.Continents" Schema="Common" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="Common" store:Type="Tables" />
+          <EntitySet Name="Regions" EntityType="Self.Regions" Schema="Common" store:Type="Tables" />
+          <EntitySet Name="Timezones" EntityType="Self.Timezones" Schema="Common" store:Type="Tables" />
+          <EntitySet Name="Doctors" EntityType="Self.Doctors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PatientDetails" EntityType="Self.PatientDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patients" EntityType="Self.Patients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Treatement" EntityType="Self.Treatement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Treatement2Patient" EntityType="Self.Treatement2Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TreatementTypes" EntityType="Self.TreatementTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cities_Regions" Association="Self.FK_Cities_Regions">
+            <End Role="Regions" EntitySet="Regions" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cities_Timezones" Association="Self.FK_Cities_Timezones">
+            <End Role="Timezones" EntitySet="Timezones" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Countries_Continents" Association="Self.FK_Countries_Continents">
+            <End Role="Continents" EntitySet="Continents" />
+            <End Role="Countries" EntitySet="Countries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Doctors_Address" Association="Self.FK_Doctors_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Doctors" EntitySet="Doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientDetails_Patients" Association="Self.FK_PatientDetails_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="PatientDetails" EntitySet="PatientDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patients_Address" Association="Self.FK_Patients_Address">
+            <End Role="Address" EntitySet="Address" />
+            <End Role="Patients" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patients_Doctors" Association="Self.FK_Patients_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="Patients" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Regions_Countries" Association="Self.FK_Regions_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Regions" EntitySet="Regions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treatement_Treatement" Association="Self.FK_Treatement_Treatement">
+            <End Role="Treatement" EntitySet="Treatement" />
+            <End Role="Treatement1" EntitySet="Treatement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treatement2Patient_Patients" Association="Self.FK_Treatement2Patient_Patients">
+            <End Role="Treatement" EntitySet="Treatement" />
+            <End Role="Treatement2Patient" EntitySet="Treatement2Patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treatement2Patient_TreatementTypes" Association="Self.FK_Treatement2Patient_TreatementTypes">
+            <End Role="TreatementTypes" EntitySet="TreatementTypes" />
+            <End Role="Treatement2Patient" EntitySet="Treatement2Patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TreatementTypes_TreatementTypes" Association="Self.FK_TreatementTypes_TreatementTypes">
+            <End Role="TreatementTypes" EntitySet="TreatementTypes" />
+            <End Role="TreatementTypes1" EntitySet="TreatementTypes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FatWatchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="AddressId" />
+          </Key>
+          <Property Name="AddressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StreetName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RegionId" Type="Int32" />
+          <Property Name="CityId" Type="Int32" />
+          <NavigationProperty Name="Doctors" Relationship="Self.FK_Doctors_Address" FromRole="Address" ToRole="Doctors" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_Address" FromRole="Address" ToRole="Patients" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="CityId" />
+          </Key>
+          <Property Name="CityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RegionId" Type="Int32" />
+          <Property Name="TimezoneId" Type="Int32" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="Latitude" Type="Decimal" Precision="9" Scale="6" />
+          <Property Name="Longitude" Type="Decimal" Precision="9" Scale="6" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Cities_Countries" FromRole="Cities" ToRole="Countries" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_Cities_Regions" FromRole="Cities" ToRole="Regions" />
+          <NavigationProperty Name="Timezone" Relationship="Self.FK_Cities_Timezones" FromRole="Cities" ToRole="Timezones" />
+        </EntityType>
+        <EntityType Name="Continent">
+          <Key>
+            <PropertyRef Name="ContinentId" />
+          </Key>
+          <Property Name="ContinentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ISOCode" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Countries" Relationship="Self.FK_Countries_Continents" FromRole="Continents" ToRole="Countries" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContinentId" Type="Int32" Nullable="false" />
+          <Property Name="ISOCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_Cities_Countries" FromRole="Countries" ToRole="Cities" />
+          <NavigationProperty Name="Continent" Relationship="Self.FK_Countries_Continents" FromRole="Countries" ToRole="Continents" />
+          <NavigationProperty Name="Regions" Relationship="Self.FK_Regions_Countries" FromRole="Countries" ToRole="Regions" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="RegionId" />
+          </Key>
+          <Property Name="RegionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ISOCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_Cities_Regions" FromRole="Regions" ToRole="Cities" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Regions_Countries" FromRole="Regions" ToRole="Countries" />
+        </EntityType>
+        <EntityType Name="Timezone">
+          <Key>
+            <PropertyRef Name="TimezoneId" />
+          </Key>
+          <Property Name="TimezoneId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_Cities_Timezones" FromRole="Timezones" ToRole="Cities" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="DoctorId" />
+          </Key>
+          <Property Name="DoctorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddressId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_Doctors_Address" FromRole="Doctors" ToRole="Address" />
+          <NavigationProperty Name="Patients" Relationship="Self.FK_Patients_Doctors" FromRole="Doctors" ToRole="Patients" />
+        </EntityType>
+        <EntityType Name="PatientDetail">
+          <Key>
+            <PropertyRef Name="PatientDetailsId" />
+          </Key>
+          <Property Name="PatientDetailsId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="InputDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Weight" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK_PatientDetails_Patients" FromRole="PatientDetails" ToRole="Patients" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="PatientId" />
+          </Key>
+          <Property Name="PatientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DoctorId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddressId" Type="Int32" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateOfRegistration" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Height" Type="Double" />
+          <NavigationProperty Name="Address" Relationship="Self.FK_Patients_Address" FromRole="Patients" ToRole="Address" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK_Patients_Doctors" FromRole="Patients" ToRole="Doctors" />
+          <NavigationProperty Name="PatientDetails" Relationship="Self.FK_PatientDetails_Patients" FromRole="Patients" ToRole="PatientDetails" />
+        </EntityType>
+        <EntityType Name="Treatement">
+          <Key>
+            <PropertyRef Name="TreatementId" />
+          </Key>
+          <Property Name="TreatementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Treatement1" Relationship="Self.FK_Treatement_Treatement" FromRole="Treatement" ToRole="Treatement1" />
+          <NavigationProperty Name="Treatement2" Relationship="Self.FK_Treatement_Treatement" FromRole="Treatement1" ToRole="Treatement" />
+          <NavigationProperty Name="Treatement2Patient" Relationship="Self.FK_Treatement2Patient_Patients" FromRole="Treatement" ToRole="Treatement2Patient" />
+        </EntityType>
+        <EntityType Name="Treatement2Patient">
+          <Key>
+            <PropertyRef Name="Treatement2PatientId" />
+          </Key>
+          <Property Name="Treatement2PatientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreatementTypeId" Type="Int32" Nullable="false" />
+          <Property Name="TreatementId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Treatement" Relationship="Self.FK_Treatement2Patient_Patients" FromRole="Treatement2Patient" ToRole="Treatement" />
+          <NavigationProperty Name="TreatementType" Relationship="Self.FK_Treatement2Patient_TreatementTypes" FromRole="Treatement2Patient" ToRole="TreatementTypes" />
+        </EntityType>
+        <EntityType Name="TreatementType">
+          <Key>
+            <PropertyRef Name="TreatementTypeId" />
+          </Key>
+          <Property Name="TreatementTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TreatementTypeName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TreatementTypeParentId" Type="Int32" Nullable="false" />
+          <Property Name="TreatementTypeDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Treatement2Patient" Relationship="Self.FK_Treatement2Patient_TreatementTypes" FromRole="TreatementTypes" ToRole="Treatement2Patient" />
+          <NavigationProperty Name="TreatementTypes1" Relationship="Self.FK_TreatementTypes_TreatementTypes" FromRole="TreatementTypes" ToRole="TreatementTypes1" />
+          <NavigationProperty Name="TreatementType1" Relationship="Self.FK_TreatementTypes_TreatementTypes" FromRole="TreatementTypes1" ToRole="TreatementTypes" />
+        </EntityType>
+        <Association Name="FK_Doctors_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="Doctors" Type="Self.Doctor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Doctors">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patients_Address">
+          <End Role="Address" Type="Self.Address" Multiplicity="1" />
+          <End Role="Patients" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Address">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Patients">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cities_Countries">
+          <End Role="Countries" Type="Self.Country" Multiplicity="1" />
+          <End Role="Cities" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cities_Regions">
+          <End Role="Regions" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="Cities" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Regions">
+              <PropertyRef Name="RegionId" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="RegionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cities_Timezones">
+          <End Role="Timezones" Type="Self.Timezone" Multiplicity="0..1" />
+          <End Role="Cities" Type="Self.City" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timezones">
+              <PropertyRef Name="TimezoneId" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="TimezoneId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Countries_Continents">
+          <End Role="Continents" Type="Self.Continent" Multiplicity="1" />
+          <End Role="Countries" Type="Self.Country" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Continents">
+              <PropertyRef Name="ContinentId" />
+            </Principal>
+            <Dependent Role="Countries">
+              <PropertyRef Name="ContinentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Regions_Countries">
+          <End Role="Countries" Type="Self.Country" Multiplicity="1" />
+          <End Role="Regions" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Regions">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Patients_Doctors">
+          <End Role="Doctors" Type="Self.Doctor" Multiplicity="0..1" />
+          <End Role="Patients" Type="Self.Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctors">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="Patients">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PatientDetails_Patients">
+          <End Role="Patients" Type="Self.Patient" Multiplicity="1" />
+          <End Role="PatientDetails" Type="Self.PatientDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patients">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="PatientDetails">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treatement_Treatement">
+          <End Role="Treatement" Type="Self.Treatement" Multiplicity="1" />
+          <End Role="Treatement1" Type="Self.Treatement" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Treatement">
+              <PropertyRef Name="TreatementId" />
+            </Principal>
+            <Dependent Role="Treatement1">
+              <PropertyRef Name="TreatementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treatement2Patient_Patients">
+          <End Role="Treatement" Type="Self.Treatement" Multiplicity="1" />
+          <End Role="Treatement2Patient" Type="Self.Treatement2Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Treatement">
+              <PropertyRef Name="TreatementId" />
+            </Principal>
+            <Dependent Role="Treatement2Patient">
+              <PropertyRef Name="TreatementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Treatement2Patient_TreatementTypes">
+          <End Role="TreatementTypes" Type="Self.TreatementType" Multiplicity="1" />
+          <End Role="Treatement2Patient" Type="Self.Treatement2Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TreatementTypes">
+              <PropertyRef Name="TreatementTypeId" />
+            </Principal>
+            <Dependent Role="Treatement2Patient">
+              <PropertyRef Name="TreatementTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TreatementTypes_TreatementTypes">
+          <End Role="TreatementTypes" Type="Self.TreatementType" Multiplicity="1" />
+          <End Role="TreatementTypes1" Type="Self.TreatementType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TreatementTypes">
+              <PropertyRef Name="TreatementTypeId" />
+            </Principal>
+            <Dependent Role="TreatementTypes1">
+              <PropertyRef Name="TreatementTypeParentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FatWatchEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Continents" EntityType="Self.Continent" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Regions" EntityType="Self.Region" />
+          <EntitySet Name="Timezones" EntityType="Self.Timezone" />
+          <EntitySet Name="Doctors" EntityType="Self.Doctor" />
+          <EntitySet Name="PatientDetails" EntityType="Self.PatientDetail" />
+          <EntitySet Name="Patients" EntityType="Self.Patient" />
+          <EntitySet Name="Treatements" EntityType="Self.Treatement" />
+          <EntitySet Name="Treatement2Patient" EntityType="Self.Treatement2Patient" />
+          <EntitySet Name="TreatementTypes" EntityType="Self.TreatementType" />
+          <AssociationSet Name="FK_Doctors_Address" Association="Self.FK_Doctors_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Doctors" EntitySet="Doctors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patients_Address" Association="Self.FK_Patients_Address">
+            <End Role="Address" EntitySet="Addresses" />
+            <End Role="Patients" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cities_Regions" Association="Self.FK_Cities_Regions">
+            <End Role="Regions" EntitySet="Regions" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cities_Timezones" Association="Self.FK_Cities_Timezones">
+            <End Role="Timezones" EntitySet="Timezones" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Countries_Continents" Association="Self.FK_Countries_Continents">
+            <End Role="Continents" EntitySet="Continents" />
+            <End Role="Countries" EntitySet="Countries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Regions_Countries" Association="Self.FK_Regions_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Regions" EntitySet="Regions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Patients_Doctors" Association="Self.FK_Patients_Doctors">
+            <End Role="Doctors" EntitySet="Doctors" />
+            <End Role="Patients" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PatientDetails_Patients" Association="Self.FK_PatientDetails_Patients">
+            <End Role="Patients" EntitySet="Patients" />
+            <End Role="PatientDetails" EntitySet="PatientDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treatement_Treatement" Association="Self.FK_Treatement_Treatement">
+            <End Role="Treatement" EntitySet="Treatements" />
+            <End Role="Treatement1" EntitySet="Treatements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treatement2Patient_Patients" Association="Self.FK_Treatement2Patient_Patients">
+            <End Role="Treatement" EntitySet="Treatements" />
+            <End Role="Treatement2Patient" EntitySet="Treatement2Patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Treatement2Patient_TreatementTypes" Association="Self.FK_Treatement2Patient_TreatementTypes">
+            <End Role="TreatementTypes" EntitySet="TreatementTypes" />
+            <End Role="Treatement2Patient" EntitySet="Treatement2Patient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TreatementTypes_TreatementTypes" Association="Self.FK_TreatementTypes_TreatementTypes">
+            <End Role="TreatementTypes" EntitySet="TreatementTypes" />
+            <End Role="TreatementTypes1" EntitySet="TreatementTypes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FatWatchModelStoreContainer" CdmEntityContainer="FatWatchEntities">
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="FatWatchModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="StreetName" ColumnName="StreetName" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="FatWatchModel.City">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="TimezoneId" ColumnName="TimezoneId" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Continents">
+            <EntityTypeMapping TypeName="FatWatchModel.Continent">
+              <MappingFragment StoreEntitySet="Continents">
+                <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ISOCode" ColumnName="ISOCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="FatWatchModel.Country">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ContinentId" ColumnName="ContinentId" />
+                <ScalarProperty Name="ISOCode" ColumnName="ISOCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regions">
+            <EntityTypeMapping TypeName="FatWatchModel.Region">
+              <MappingFragment StoreEntitySet="Regions">
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ISOCode" ColumnName="ISOCode" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Timezones">
+            <EntityTypeMapping TypeName="FatWatchModel.Timezone">
+              <MappingFragment StoreEntitySet="Timezones">
+                <ScalarProperty Name="TimezoneId" ColumnName="TimezoneId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doctors">
+            <EntityTypeMapping TypeName="FatWatchModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctors">
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientDetails">
+            <EntityTypeMapping TypeName="FatWatchModel.PatientDetail">
+              <MappingFragment StoreEntitySet="PatientDetails">
+                <ScalarProperty Name="PatientDetailsId" ColumnName="PatientDetailsId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="InputDate" ColumnName="InputDate" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="FatWatchModel.Patient">
+              <MappingFragment StoreEntitySet="Patients">
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="DateOfRegistration" ColumnName="DateOfRegistration" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Treatements">
+            <EntityTypeMapping TypeName="FatWatchModel.Treatement">
+              <MappingFragment StoreEntitySet="Treatement">
+                <ScalarProperty Name="TreatementId" ColumnName="TreatementId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Treatement2Patient">
+            <EntityTypeMapping TypeName="FatWatchModel.Treatement2Patient">
+              <MappingFragment StoreEntitySet="Treatement2Patient">
+                <ScalarProperty Name="Treatement2PatientId" ColumnName="Treatement2PatientId" />
+                <ScalarProperty Name="TreatementTypeId" ColumnName="TreatementTypeId" />
+                <ScalarProperty Name="TreatementId" ColumnName="TreatementId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TreatementTypes">
+            <EntityTypeMapping TypeName="FatWatchModel.TreatementType">
+              <MappingFragment StoreEntitySet="TreatementTypes">
+                <ScalarProperty Name="TreatementTypeId" ColumnName="TreatementTypeId" />
+                <ScalarProperty Name="TreatementTypeName" ColumnName="TreatementTypeName" />
+                <ScalarProperty Name="TreatementTypeParentId" ColumnName="TreatementTypeParentId" />
+                <ScalarProperty Name="TreatementTypeDescription" ColumnName="TreatementTypeDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
